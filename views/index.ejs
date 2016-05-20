@@ -13,7 +13,7 @@
   <script>
     $(document).ready(function(){
         $('#form').submit(function(){
-          window.open('/new/'+$('input').val(), '_blank');
+          window.open('/new/'+$('input').val().replace('http://', '').replace('https://','').replace(/\//g, 'itsaslash').replace(/\?/g, 'itsaquestion').replace(/\=/g, 'itsaequal'), '_blank');
         })
     })
   </script>

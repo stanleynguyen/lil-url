@@ -41,7 +41,7 @@ app.get('/:id', function(req, res){
                 if(docs.length === 0){
                     res.render(__dirname+'/views/notindb.ejs', {url: req.protocol+'://'+req.hostname+req.url});
                 }else{
-                    res.redirect('http://'+docs[0].original.replace('http://').replace('https://'));
+                    res.redirect('http://'+docs[0].original.replace('http://','').replace('https://'));
                 }
             });
         });

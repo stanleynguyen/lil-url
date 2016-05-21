@@ -9,7 +9,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/new/:url', function(req, res){
-    var url = req.params.url.replace(/itsaslash/g, '/').replace(/itsaquestion/g, '?').replace(/itsaequal/g, '=').replace(/itsahash/g, '#');
+    var url = decodeURIComponent(req.params.url);
     mongo.connect('mongodb://stanley:hung123@ds025232.mlab.com:25232/lilurl', function(err, db){
         if(err) throw err;
         db.collection('lilurls').find({
@@ -41,7 +41,7 @@ app.get('/:id', function(req, res){
                 if(docs.length === 0){
                     res.render(__dirname+'/views/notindb.ejs', {url: req.protocol+'://'+req.hostname+req.url});
                 }else{
-                    res.redirect('http://'+docs[0].original);
+                    res.redirect('http://'+docs[0].original.replace('http://').replace('https://'));
                 }
             });
         });

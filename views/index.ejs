@@ -14,7 +14,7 @@
     $(document).ready(function(){
         $('#form').submit(function(){
           event.preventDefault();
-          window.open('/new/'+$('input').val().replace('http://', '').replace('https://','').replace(/\//g, 'itsaslash').replace(/\?/g, 'itsaquestion').replace(/\=/g, 'itsaequal').replace(/\#/g, 'itsahash'), '_top');
+          window.open('/new/'+encodeURIComponent($('input').val()), '_top');
         })
     })
   </script>

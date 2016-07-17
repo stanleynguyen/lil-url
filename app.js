@@ -1,16 +1,16 @@
 var express = require("express");
 var mongo = require("mongodb").MongoClient;
 var myEngine = require("./engine");
+var bodyParser = require("body-parser");
 
 var app = express();
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res){
     res.render(__dirname+'/views/index.ejs');
-});
-
-app.get('/new/:url', function(req, res){
-    var url = decodeURIComponent(req.params.url);
-    mongo.connect('mongodb://stanley:hung123@ds025232.mlab.com:25232/lilurl', function(err, db){
+}).post('/', function(req, res){
+    var url = req.body.url;
+    mongo.connect(process.env.DATABASE, function(err, db){
         if(err) throw err;
         db.collection('lilurls').find({
             'original': url
@@ -32,7 +32,7 @@ app.get('/:id', function(req, res){
     if(isNaN(Number(req.params.id))){
         res.render(__dirname+'/views/notindb.ejs', {url: req.protocol+'://'+req.hostname+req.url});
     }else{
-        mongo.connect('mongodb://stanley:hung123@ds025232.mlab.com:25232/lilurl', function(err, db){
+        mongo.connect(process.env.DATABASE, function(err, db){
             if(err) throw err;
             db.collection('lilurls').find({
                 '_id': Number(req.params.id)

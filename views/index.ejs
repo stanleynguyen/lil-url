@@ -1,21 +1,32 @@
 <% include ./layout %>
 <body>
-  <h1 class='text-center'>Stanley's URL Shortener</h1>
-  <form id ='form' role='form'>
-    <div class='container'>
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center">Stanley's URL Shortener</h1>
       <hr>
-      <div class='form-group'>
-        <input class='form-control' placeholder='Enter the link you want to shorten' id='input'>
-        <button type='submit' class='btn btn-primary pull-right'>Submit</button>
+      <form id ="form" role="form" method="post">
+          <div class="form-group">
+            <input class="form-control" placeholder="http://www.google.com" name="url" required>
+            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+          </div>
+      </form>
+    </div>
+    <br>
+    <div class="row">
+      <div class="alert alert-danger" style="display: none;">
+        Invalid URL
       </div>
     </div>
-  </form>
+  </div>
   <script>
-    $(document).ready(function(){
-        $('#form').submit(function(){
+    $(document).ready(function() {
+      var urlRegEx = new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
+      $('#form').submit(function() {
+        if (!urlRegEx.test($('#form input').val())) {
           event.preventDefault();
-          window.open('/new/'+encodeURIComponent($('input').val()), '_top');
-        })
-    })
+          $('.alert').show();
+        }
+      });
+    });
   </script>
 </body>
